@@ -1,0 +1,5 @@
+Zafack  |  GC   |   GIND  |   GET  |   GTEL |    GM   |   GI    
+Preston |  GET  |   GI    |   GTEL |   GC   |    GIND |   GM
+Samuels |  GTEL |   GI    |   GIND |   GET  |    GC   |   GM  
+Johnson |  GI   |   GTEL  |   GM   |   GET  |    GC   |   GIND
+Araner  |  GM   |   GTEL  |   GI   |   GIND |    GC   |   GET

@@ -1,0 +1,576 @@
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+import org.freixas.jcalendar.JCalendarCombo;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * 
+ * @author Zafack Billy
+ */
+public class Recu extends javax.swing.JDialog {
+
+	class Actionr implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if (e.getSource() == jRadioButton1) {
+				montant1.setEnabled(false);
+				montant3.setEnabled(false);
+				montant.setEnabled(true);
+			}
+			if (e.getSource() == jRadioButton2) {
+				montant.setEnabled(false);
+				montant1.setEnabled(true);
+			}
+			if (e.getSource() == nom) {
+				System.out.println("TOuCHED "
+						+ getPIDD((String) nom.getSelectedItem()));
+				montant3.setText(getPIDD((String) nom.getSelectedItem()));
+			}
+			if (e.getSource() == quitter) {
+				setVisible(false);
+			}
+			if (e.getSource() == reprendre) {
+				jRadioButton1.setSelected(true);
+				montant1.setText("");
+				montant3.setText("");
+				montant.setText("");
+			}
+			if (e.getSource() == creer) {
+				new Produit((Frame) getParent(), true).setVisible(true);
+			}
+			if (e.getSource() == confirmer) {
+				if (jRadioButton1.isSelected()) {
+					if (!montant.getText().equals("")) {
+						Vente.incCapital(Integer.parseInt(montant.getText()));
+						JOptionPane.showMessageDialog(Recu.this,
+								"Ce vol a été enregistré", "VOL ENREGISTRE",
+								JOptionPane.INFORMATION_MESSAGE);
+						setVisible(false);
+					} else {
+						JOptionPane
+								.showMessageDialog(
+										Recu.this,
+										"Vous n'avez pas renseigne la quantite d'argent",
+										"CHAMPS NON RENSEIGNE",
+										JOptionPane.WARNING_MESSAGE);
+					}
+				} else {
+					if (!montant1.getText().equals("")) {
+
+						Achat.incStock((String) nom.getSelectedItem(),
+								Integer.parseInt(montant1.getText()));
+						insertionRecu();
+						JOptionPane.showMessageDialog(Recu.this,
+								"Ce cadeau a été enregistré",
+								"CADEAU ENREGISTRE",
+								JOptionPane.INFORMATION_MESSAGE);
+						setVisible(false);
+					} else {
+						JOptionPane
+								.showMessageDialog(
+										Recu.this,
+										"Vous n'avez pas renseigne la quantite du produit recu",
+										"CHAMPS NON RENSEIGNE",
+										JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		}
+
+	}
+
+	// Variables declaration - do not modify
+	private javax.swing.ButtonGroup buttonGroup1;
+
+	private javax.swing.JButton confirmer;
+	private javax.swing.JButton creer;
+
+	private javax.swing.JLabel jLabel1;
+
+	private javax.swing.JLabel jLabel2;
+
+	private javax.swing.JLabel jLabel3;
+
+	private javax.swing.JLabel jLabel4;
+
+	private javax.swing.JLabel jLabel5;
+	private javax.swing.JLabel jLabel6;
+	private javax.swing.JLabel jLabel7;
+	private javax.swing.JLabel jLabel8;
+	private javax.swing.JRadioButton jRadioButton1;
+	private javax.swing.JRadioButton jRadioButton2;
+	private javax.swing.JTextField montant;
+	private javax.swing.JTextField montant1;
+	private javax.swing.JTextField montant3;
+	private javax.swing.JButton quitter;
+	private javax.swing.JButton reprendre;
+	private JCalendarCombo date;
+	private JLabel lblDate;
+	private JComboBox nom;
+
+	// End of variables declaration
+	/**
+	 * Creates new form Recu
+	 */
+	public Recu(java.awt.Frame parent, boolean modal) {
+		super(parent, modal);
+		initComponents();
+		jRadioButton1.addActionListener(new Actionr());
+		jRadioButton2.addActionListener(new Actionr());
+		confirmer.addActionListener(new Actionr());
+		reprendre.addActionListener(new Actionr());
+		quitter.addActionListener(new Actionr());
+		nom.addActionListener(new Actionr());
+		creer.addActionListener(new Actionr());
+		Recu.this.montant3.setEnabled(false);
+		jRadioButton1.setSelected(true);
+		montant1.setEnabled(false);
+		reinitPBox();
+	}
+
+	public String getPIDD(String nom) {
+		String ss = "";
+		try {
+			Statement stmt = Fenetre.getConnection().createStatement();
+			ResultSet r = stmt
+					.executeQuery("SELECT Identification_P FROM Produit WHERE Nom=\""
+							+ nom + "\";");
+			r.next();
+			ss = r.getString("Identification_P");
+		} catch (SQLException s) {
+			s.printStackTrace();
+		}
+		return ss;
+	}
+
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
+	// <editor-fold defaultstate="collapsed" desc="Generated Code">
+	private void initComponents() {
+
+		buttonGroup1 = new javax.swing.ButtonGroup();
+		jLabel1 = new javax.swing.JLabel();
+		jRadioButton1 = new javax.swing.JRadioButton();
+		jRadioButton2 = new javax.swing.JRadioButton();
+		date = new JCalendarCombo();
+		jLabel2 = new javax.swing.JLabel();
+		jLabel3 = new javax.swing.JLabel();
+		jLabel4 = new javax.swing.JLabel();
+		jLabel5 = new javax.swing.JLabel();
+		jLabel6 = new javax.swing.JLabel();
+		jLabel7 = new javax.swing.JLabel();
+		montant = new javax.swing.JTextField();
+		montant1 = new javax.swing.JTextField();
+		montant3 = new javax.swing.JTextField();
+		jLabel8 = new javax.swing.JLabel();
+		reprendre = new javax.swing.JButton();
+		confirmer = new javax.swing.JButton();
+		quitter = new javax.swing.JButton();
+		creer = new javax.swing.JButton();
+
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+		jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
+		jLabel1.setText("CADEAU RECU");
+
+		jRadioButton1.setText("Argent");
+		jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jRadioButton1ActionPerformed(evt);
+			}
+		});
+
+		jRadioButton2.setText("Produit");
+		jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jRadioButton2ActionPerformed(evt);
+			}
+		});
+		buttonGroup1.add(jRadioButton1);
+		buttonGroup1.add(jRadioButton2);
+		jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+		jLabel2.setText("ARGENT :");
+
+		jLabel3.setText("Montant :");
+
+		jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+		jLabel4.setText("PRODUIT :");
+
+		jLabel5.setText("Identification :");
+
+		jLabel6.setText("Nom :");
+
+		jLabel7.setText("Quantite :");
+
+		montant3.setEditable(false);
+
+		jLabel8.setText("FCFA");
+
+		reprendre.setText("Reprendre");
+
+		confirmer.setText("Confirmer");
+
+		quitter.setText("Quitter");
+
+		creer.setText("Creer Nouveau Produit");
+
+		lblDate = new JLabel("Date :");
+
+		nom = new JComboBox();
+		reprendre.setIcon(new ImageIcon(".\\images\\reprendre.png"));
+		quitter.setIcon(new ImageIcon(".\\images\\annuler.png"));
+		confirmer.setIcon(new ImageIcon(".\\images\\ajouter.png"));
+
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
+				getContentPane());
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.LEADING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(187)
+																.addComponent(
+																		jLabel1))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(67)
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGap(51)
+																								.addComponent(
+																										jRadioButton1)
+																								.addGap(145)
+																								.addComponent(
+																										jRadioButton2)
+																								.addGroup(
+																										layout.createParallelGroup(
+																												Alignment.LEADING)
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addGap(18)
+																																.addComponent(
+																																		date,
+																																		0,
+																																		192,
+																																		Short.MAX_VALUE))
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addGap(90)
+																																.addComponent(
+																																		lblDate))))
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addGroup(
+																										layout.createParallelGroup(
+																												Alignment.TRAILING)
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addGroup(
+																																		layout.createParallelGroup(
+																																				Alignment.LEADING)
+																																				.addGroup(
+																																						layout.createSequentialGroup()
+																																								.addGap(10)
+																																								.addGroup(
+																																										layout.createParallelGroup(
+																																												Alignment.LEADING)
+																																												.addComponent(
+																																														jLabel5)
+																																												.addComponent(
+																																														jLabel6)
+																																												.addComponent(
+																																														jLabel7)))
+																																				.addGroup(
+																																						layout.createParallelGroup(
+																																								Alignment.TRAILING)
+																																								.addComponent(
+																																										jLabel3)
+																																								.addComponent(
+																																										jLabel2))
+																																				.addComponent(
+																																						jLabel4))
+																																.addGap(24))
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addComponent(
+																																		reprendre,
+																																		GroupLayout.PREFERRED_SIZE,
+																																		99,
+																																		GroupLayout.PREFERRED_SIZE)
+																																.addGap(16)))
+																								.addGroup(
+																										layout.createParallelGroup(
+																												Alignment.TRAILING)
+																												.addGroup(
+																														layout.createSequentialGroup()
+																																.addComponent(
+																																		montant,
+																																		GroupLayout.PREFERRED_SIZE,
+																																		190,
+																																		GroupLayout.PREFERRED_SIZE)
+																																.addPreferredGap(
+																																		ComponentPlacement.UNRELATED)
+																																.addComponent(
+																																		jLabel8)
+																																.addPreferredGap(
+																																		ComponentPlacement.RELATED,
+																																		191,
+																																		Short.MAX_VALUE))
+																												.addGroup(
+																														Alignment.LEADING,
+																														layout.createSequentialGroup()
+																																.addGroup(
+																																		layout.createParallelGroup(
+																																				Alignment.TRAILING,
+																																				false)
+																																				.addGroup(
+																																						layout.createSequentialGroup()
+																																								.addGap(59)
+																																								.addComponent(
+																																										confirmer,
+																																										GroupLayout.PREFERRED_SIZE,
+																																										103,
+																																										GroupLayout.PREFERRED_SIZE)
+																																								.addPreferredGap(
+																																										ComponentPlacement.RELATED,
+																																										GroupLayout.DEFAULT_SIZE,
+																																										Short.MAX_VALUE)
+																																								.addComponent(
+																																										quitter,
+																																										GroupLayout.PREFERRED_SIZE,
+																																										97,
+																																										GroupLayout.PREFERRED_SIZE))
+																																				.addGroup(
+																																						Alignment.LEADING,
+																																						layout.createSequentialGroup()
+																																								.addGroup(
+																																										layout.createParallelGroup(
+																																												Alignment.LEADING,
+																																												false)
+																																												.addComponent(
+																																														nom,
+																																														0,
+																																														GroupLayout.DEFAULT_SIZE,
+																																														Short.MAX_VALUE)
+																																												.addComponent(
+																																														montant1,
+																																														GroupLayout.DEFAULT_SIZE,
+																																														190,
+																																														Short.MAX_VALUE)
+																																												.addComponent(
+																																														montant3,
+																																														GroupLayout.DEFAULT_SIZE,
+																																														190,
+																																														Short.MAX_VALUE))
+																																								.addPreferredGap(
+																																										ComponentPlacement.UNRELATED)
+																																								.addComponent(
+																																										creer)))
+																																.addGap(0,
+																																		74,
+																																		Short.MAX_VALUE)))))))
+								.addContainerGap()));
+		layout.setVerticalGroup(layout
+				.createParallelGroup(Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.LEADING)
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(38)
+																.addComponent(
+																		jLabel1)
+																.addGap(18)
+																.addGroup(
+																		layout.createParallelGroup(
+																				Alignment.BASELINE)
+																				.addComponent(
+																						jRadioButton1)
+																				.addComponent(
+																						jRadioButton2))
+																.addGap(43)
+																.addComponent(
+																		jLabel2))
+												.addGroup(
+														layout.createSequentialGroup()
+																.addGap(80)
+																.addComponent(
+																		lblDate)
+																.addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addComponent(
+																		date,
+																		GroupLayout.PREFERRED_SIZE,
+																		GroupLayout.DEFAULT_SIZE,
+																		GroupLayout.PREFERRED_SIZE)))
+								.addGap(55)
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.BASELINE)
+												.addComponent(jLabel3)
+												.addComponent(
+														montant,
+														GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(jLabel8))
+								.addGap(59)
+								.addComponent(jLabel4)
+								.addGap(18)
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.BASELINE)
+												.addComponent(jLabel5)
+												.addComponent(
+														montant3,
+														GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE))
+								.addGap(27)
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.BASELINE)
+												.addComponent(jLabel6)
+												.addComponent(creer)
+												.addComponent(
+														nom,
+														GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE))
+								.addGap(31)
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.BASELINE)
+												.addComponent(jLabel7)
+												.addComponent(
+														montant1,
+														GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED,
+										33, Short.MAX_VALUE)
+								.addGroup(
+										layout.createParallelGroup(
+												Alignment.TRAILING)
+												.addGroup(
+														layout.createParallelGroup(
+																Alignment.BASELINE)
+																.addComponent(
+																		quitter,
+																		GroupLayout.PREFERRED_SIZE,
+																		32,
+																		GroupLayout.PREFERRED_SIZE)
+																.addComponent(
+																		confirmer,
+																		GroupLayout.PREFERRED_SIZE,
+																		40,
+																		GroupLayout.PREFERRED_SIZE))
+												.addComponent(
+														reprendre,
+														GroupLayout.PREFERRED_SIZE,
+														32,
+														GroupLayout.PREFERRED_SIZE))
+								.addGap(28)));
+		getContentPane().setLayout(layout);
+
+		pack();
+	}// </editor-fold>
+
+	public void insertionRecu() {
+		if (jRadioButton2.isSelected()) {
+			try {
+				Statement stmt = Fenetre.getConnection().createStatement();
+				stmt.executeUpdate("INSERT INTO CadeauRecu(ProduitID,Argent,NbUnite,Date) VALUES("
+						+ Achat.getPID((String) nom.getSelectedItem())
+						+ ","
+						+ "NULL"
+						+ ","
+						+ montant1.getText()
+						+ ","
+						+ date.getDate() + ");");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} else {
+			try {
+				Statement stmt = Fenetre.getConnection().createStatement();
+				stmt.executeUpdate("INSERT INTO CadeauRecu(ProduitID,Argent,NbUnite,Date) VALUES("
+						+ "NULL"
+						+ ","
+						+ montant.getText()
+						+ ","
+						+ "NULL"
+						+ ","
+						+ date.getDate() + ");");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		revalidate();
+	}
+
+	private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+	}
+
+	private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+	}
+
+	public void reinitPBox() {
+		Vector<String> v = new Vector<String>();
+		try {
+			Statement stmt = Fenetre.getConnection().createStatement();
+			ResultSet res = stmt.executeQuery("SELECT Nom FROM Produit");
+			while (res.next()) {
+				v.add(res.getString("Nom"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		nom.removeAllItems();
+		for (int i = 0; i < v.size(); i++) {
+			nom.addItem(v.get(i));
+		}
+		revalidate();
+	}
+}

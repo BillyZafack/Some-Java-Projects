@@ -1,0 +1,70 @@
+:-use_module(library(clpfd)).
+
+/*
+On rend les predicats de preferences dynamiques
+*/
+ 	 dynamic(prefereEtdDept,3).
+	 dynamic(prefereDeptEtd,3).
+	 
+/*On definit les preferences des Etudiants et Departement*/
+	
+
+	 pref_Etd(Etd, Depti, Deptj) :- prefereEtdDept(Rangi, Etd, Depti), prefereEtdDept(Rangj, Etd, Deptj), Rangi < Rangj.
+	
+	 pref_Dept(Deptd, Etdi, Etdj) :- prefereDeptEtd(Rangi, Deptd, Etdi), prefereDeptEtd(Rangj, Deptd, Etdj), Rangi < Rangj.
+
+	 
+	 
+/*Definition des predicats sur les listes */
+
+	nieme_liste(1, T, [T|_]).
+	nieme_liste(N, X, [_|L]) :- nieme_liste(M,X,L),  N is M + 1.
+
+	
+	
+	longueur(0, []).
+	longueur(N, [_|Q]) :- longueur(M, Q),  N is (M + 1).
+
+	premier(X, [X|_]).
+
+	dernier(X, [X]).
+	dernier(X, [_|Q]) :- dernier(X, Q).	
+
+
+
+
+	ceDeptEntre( Dlist, Dd, Nmin, Nmax)    :-  nbrEtdACeDept(Dlist, Dd, Ncontient),      Ncontient > Nmin-1,        Ncontient < Nmax+1.
+	
+	
+	tousDeptEntre(_,  [],  _,  _).
+
+	tousDeptEntre( Dlist,[Di|Ds], Nmin, Nmax) :-  ceDeptEntre(Dlist, Di, Nmin, Nmax),   tousDeptEntre(Dlist, Ds, Nmin, Nmax).
+
+	
+
+
+
+/*Contrainte No 1 sur le nombre min et max d'etudiants par departements
+*/
+
+	nbrEtdACeDept([], _, 0).
+
+	nbrEtdACeDept([Dh|Dt], Dh, Nbr) :- nbrEtdACeDept(Dt, Dh, Nbr2),      Nbr is 1 + Nbr2.
+
+	nbrEtdACeDept([Dd|Dt], Dh, Nbr) :- nbrEtdACeDept(Dt, Dh, Nbr),       Dh \== Dd.
+
+
+
+/* Definition de l'instabilite*/
+	instable(Ei, Var) :- nieme_liste(Ei, Di, Var),   pref_Etd(Ei, Dj, Di),  pref_Dept(Dj, Ei, Ej), nieme_liste(Ej, Dj, Var).
+	
+	instable(Ei, Var) :- nieme_liste(Ei, Di, Var),   pref_Etd(Ei, Dj, Di),  prefereDeptEtd(Ri, Dj, Ei), prefereDeptEtd(Rj, Dj, Ej), Ri == Rj, nieme_liste(Ej, Dj, Var), prefereEtdDept(Choixi, Ei, Dj), prefereEtdDept(Choixj, Ej, Dj), Choixi < Choixj.
+	
+	
+	stable([],_).
+    stable([Et|Es], Var) :-  not(instable(Et, Var)),stable(Es, Var).
+
+/*Repartition des etudiants dans les departements*/
+repartition(Var, Ed, Dd, [Min, Max]) :-  premier(Dd1, Dd),dernier(Dd2, Dd),Var ins Dd1..Dd2,label(Var),stable(Ed,Var),tousDeptEntre(Var, Dd, Min, Max).	
+
+

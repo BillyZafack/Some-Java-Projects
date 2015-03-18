@@ -1,0 +1,21 @@
+- COPIER LE CONTENU DU FICHIER dump3.sql(dans le dossier du projet) et EXECUTER SUR LA LIGNE DE COMMANDE
+LA LIGNE DE COMMANDE SQL(VOUS POUVEZ EGALEMENT EXECUTER LE FICHIER SCRIPT dump3.sql en ligne de commande
+ classique avec la commande source [CHEMIN ABSOLU]).
+- LANCER L'EXECUTABLE "PROJET POOss.jar".
+- Entrer "Professionnelle" dans le premier JOptionPane.
+- Entrer le nom d'utilisateur(par defaut "root") et le Mot De Passe que vous avez utilisee lors de la creation
+de votre serveur mySQL.
+ Le champs Base de donnees est "optionnelle".
+- Vous pouvez acceder au projet desormais.
+
+NB:
+- La premiere etape est CLE pour le bon fonctionnement.
+- Ce projet a ete fusionnee a un projet simmilaire de gestion des etudiants mais avec
+serialisation des donnees dans un fichier(Projet du semestre1 auquel vous pouvez acceder
+via l'interface);
+
+En cas de problemes me contacter:
+Mat 11P248
+Nom ZAFACK BILLY RUFFIN
+Classe 3GI
+Tel 70878666  

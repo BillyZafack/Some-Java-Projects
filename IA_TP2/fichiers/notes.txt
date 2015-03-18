@@ -1,0 +1,6 @@
+  GC     |  Zafack    | Preston  | Samuels | Johnson  |  Araner
+  GI     |  Samuels   | Johnson  | Preston | Araner   |  Zafack    
+  GET    |  Johnson   | Zafack   | Samuels | Araner   |  Preston
+  GTEL   |  Araner    | Johnson  | Preston | Samuels  |  Zafack  
+  GIND   |  Preston   | Araner   | Zafack  | Johnson  |  Samuels
+  GM     |  Zafack    | Araner   | Samuels | Preston  |  Johnson
